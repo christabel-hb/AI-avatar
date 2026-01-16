@@ -39,3 +39,13 @@ Outputs are written to `data/outputs/`.
 
 - This repo ignores `data/outputs/` and other generated media by default (see `.gitignore`).
 - If you want GPU acceleration for Wav2Lip, you need a CUDA-enabled PyTorch build.
+
+### What’s ignored (and why)
+
+This project intentionally does **not** commit:
+
+- Virtual environments (e.g. `.venv310/`) — they’re machine-specific and huge.
+- Python cache files (e.g. `__pycache__/`).
+- Generated outputs (e.g. `data/outputs/`, `*.wav`, `*.mp4`) — these are regenerated and can be large.
+
+If you need to share a sample output, upload it as a GitHub Release asset or attach it in an issue/PR instead of committing it.
