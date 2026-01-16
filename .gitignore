@@ -22,6 +22,9 @@ Thumbs.db
 *.mp4
 *.wav
 
+# Private voice reference (do not commit)
+/data/voice_ref.wav
+
 # Large model caches / downloads (best effort)
 **/.cache/
 **/tts_cache/
