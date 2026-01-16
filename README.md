@@ -1,0 +1,39 @@
+# Ivy Assistant
+
+A small local pipeline that:
+
+1. Generates speech audio from text using an XTTS FastAPI server.
+2. Runs Wav2Lip to produce a lip-synced video.
+
+## Setup
+
+Create and activate a Python environment, then install dependencies.
+
+- App (client): `requirements-app.txt`
+- TTS server: `requirements-tts.txt`
+- Wav2Lip Python deps: `requirements-wav2lip.txt`
+
+> Note: Wav2Lip itself is expected at `D:\tools\Wav2Lip` and requires its own setup/checkpoint.
+
+## Run
+
+### 1) Start the TTS server
+
+Run in its own terminal:
+
+```powershell
+.\.venv310\Scripts\python.exe -m uvicorn tts_server:app --host 127.0.0.1 --port 5055
+```
+
+### 2) Run the client
+
+```powershell
+.\.venv310\Scripts\python.exe app.py
+```
+
+Outputs are written to `data/outputs/`.
+
+## Notes
+
+- This repo ignores `data/outputs/` and other generated media by default (see `.gitignore`).
+- If you want GPU acceleration for Wav2Lip, you need a CUDA-enabled PyTorch build.
