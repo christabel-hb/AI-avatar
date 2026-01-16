@@ -1,4 +1,6 @@
-# Ivy Assistant
+﻿# AI-avatar
+
+## Ivy Assistant (XTTS + Wav2Lip)
 
 A small local pipeline that:
 
