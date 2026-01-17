@@ -59,6 +59,6 @@ This project intentionally does **not** commit:
 - Python cache files (e.g. `__pycache__/`).
 - Generated outputs (e.g. most of `data/outputs/`, `*.wav`, `*.mp4`) — these are regenerated and can be large.
 
-We *do* commit a small allow-listed demo (`data/outputs/demo.mp4` and `data/outputs/tts.wav`) for convenience.
+I *did* commit a small allow-listed demo (`data/outputs/demo.mp4` and `data/outputs/tts.wav`) for convenience.
 
 If you need to share a sample output, upload it as a GitHub Release asset or attach it in an issue/PR instead of committing it.
