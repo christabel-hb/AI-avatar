@@ -61,4 +61,3 @@ This project intentionally does **not** commit:
 
 I *did* commit a small allow-listed demo (`data/outputs/demo.mp4` and `data/outputs/tts.wav`) for convenience.
 
-If you need to share a sample output, upload it as a GitHub Release asset or attach it in an issue/PR instead of committing it.
