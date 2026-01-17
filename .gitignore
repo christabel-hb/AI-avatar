@@ -31,3 +31,7 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Local notes
+/notes
+/notes.txt
