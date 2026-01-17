@@ -46,6 +46,15 @@ This repo includes a small sample output so you can quickly see what the pipelin
 - `data/outputs/demo.mp4`
 - `data/outputs/tts.wav`
 
+## Wav2Lip (external dependency)
+
+This project uses **Wav2Lip** for lip-syncing.
+
+- Official repo: https://github.com/Rudrabha/Wav2Lip
+
+In this workspace we assume Wav2Lip is available at `D:\tools\Wav2Lip`.
+You’ll also need to download a Wav2Lip checkpoint (for example `wav2lip_gan.pth` or `wav2lip.pth`) and place it where your Wav2Lip setup expects it.
+
 ## Notes
 
 - This repo ignores `data/outputs/` and other generated media by default (see `.gitignore`).
