@@ -1,11 +1,15 @@
 ﻿# AI-avatar
 
-## Ivy Assistant (XTTS + Wav2Lip)
+## What this is 🎭 (still in progress)
 
-A small local pipeline that:
+**AI-avatar** is a work‑in‑progress virtual avatar project (female manhwa/anime style).
+
+Current pipeline:
 
 1. Generates speech audio from text using an XTTS FastAPI server.
 2. Runs Wav2Lip to produce a lip-synced video.
+
+The goal is a real-time conversational avatar (LLM → TTS → lip-sync video → UI).
 
 ## Setup
 
@@ -35,6 +39,13 @@ Run in its own terminal:
 
 Outputs are written to `data/outputs/`.
 
+## Demo outputs
+
+This repo includes a small sample output so you can quickly see what the pipeline produces:
+
+- `data/outputs/demo.mp4`
+- `data/outputs/tts.wav`
+
 ## Notes
 
 - This repo ignores `data/outputs/` and other generated media by default (see `.gitignore`).
@@ -46,6 +57,8 @@ This project intentionally does **not** commit:
 
 - Virtual environments (e.g. `.venv310/`) — they’re machine-specific and huge.
 - Python cache files (e.g. `__pycache__/`).
-- Generated outputs (e.g. `data/outputs/`, `*.wav`, `*.mp4`) — these are regenerated and can be large.
+- Generated outputs (e.g. most of `data/outputs/`, `*.wav`, `*.mp4`) — these are regenerated and can be large.
+
+We *do* commit a small allow-listed demo (`data/outputs/demo.mp4` and `data/outputs/tts.wav`) for convenience.
 
 If you need to share a sample output, upload it as a GitHub Release asset or attach it in an issue/PR instead of committing it.

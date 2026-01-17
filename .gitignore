@@ -22,6 +22,10 @@ Thumbs.db
 *.mp4
 *.wav
 
+# Allow-list: commit small demo artifacts for the README
+!/data/outputs/demo.mp4
+!/data/outputs/tts.wav
+
 # Private voice reference (do not commit)
 /data/voice_ref.wav
 
