@@ -1,67 +1,55 @@
 import requests
-import subprocess
 from pathlib import Path
+from modules.video_wav2lip import run_wav2lip
 
 # ---------------- CONFIG ----------------
 TTS_URL = "http://127.0.0.1:5055/tts"
 
-PROJECT_ROOT = Path(__file__).parent
+PROJECT_ROOT = Path(r"D:\c\proj\ivyAssistant")
 DATA_DIR = PROJECT_ROOT / "data"
 OUT_DIR = DATA_DIR / "outputs"
 
+VOICE_REF = DATA_DIR / "voice_ref.wav"
 TTS_WAV = OUT_DIR / "tts.wav"
 FINAL_MP4 = OUT_DIR / "final.mp4"
-
-WAV2LIP_DIR = Path("D:/tools/Wav2Lip")
-WAV2LIP_PYTHON = Path("C:/Users/bhchr/miniconda3/envs/wav2lip/python.exe")
-WAV2LIP_CHECKPOINT = WAV2LIP_DIR / "checkpoints/wav2lip_gan.pth"
-FACE_VIDEO = DATA_DIR / "drivers" / "neutral.mp4"
-
 # ----------------------------------------
 
-def run_xtts(text: str):
+
+def run_xtts(text: str) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    if not VOICE_REF.exists():
+        raise RuntimeError(f"voice_ref.wav missing: {VOICE_REF}")
 
     payload = {
         "text": text,
-        "outfile": str(TTS_WAV)
+        "ref_wav": str(VOICE_REF),
+        "language": "en",
+        "outfile": str(TTS_WAV),
     }
 
     print("[1] Calling XTTS server...")
-    r = requests.post(TTS_URL, json=payload, timeout=120)
+    r = requests.post(TTS_URL, json=payload, timeout=300)
 
     if r.status_code != 200:
         raise RuntimeError(f"TTS failed: {r.text}")
 
-    if not TTS_WAV.exists():
-        raise RuntimeError("TTS completed but tts.wav was not created")
+    # server may return outfile path (cleaned)
+    try:
+        out_json = r.json()
+        out_path = Path(out_json.get("outfile", str(TTS_WAV)))
+    except Exception:
+        out_path = TTS_WAV
+
+    if not out_path.exists():
+        raise RuntimeError(f"TTS completed but wav not found: {out_path}")
+
+    # ensure our app uses the created wav
+    if out_path.resolve() != TTS_WAV.resolve():
+        # copy/rename if server returned a different name
+        TTS_WAV.write_bytes(out_path.read_bytes())
 
     print("[1] tts.wav created")
-
-
-def run_wav2lip():
-    print("[2] Running Wav2Lip...")
-
-    cmd = [
-        str(WAV2LIP_PYTHON),
-        "inference.py",
-        "--checkpoint_path", str(WAV2LIP_CHECKPOINT),
-        "--face", str(FACE_VIDEO),
-        "--audio", str(TTS_WAV),
-        "--outfile", str(FINAL_MP4),
-        "--nosmooth"
-    ]
-
-    subprocess.run(
-        cmd,
-        cwd=str(WAV2LIP_DIR),
-        check=True
-    )
-
-    if not FINAL_MP4.exists():
-        raise RuntimeError("Wav2Lip finished but final.mp4 not created")
-
-    print("[2] final.mp4 created")
 
 
 def main():
@@ -70,10 +58,15 @@ def main():
         text = input("\nEnter text (or 'q'): ").strip()
         if text.lower() == "q":
             break
+        if not text:
+            continue
 
         try:
             run_xtts(text)
-            run_wav2lip()
+
+            print("[2] Running Wav2Lip...")
+            run_wav2lip(str(TTS_WAV), str(FINAL_MP4))
+
             print("\n✅ DONE →", FINAL_MP4)
         except Exception as e:
             print("\n❌ ERROR:", e)
